@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" name="viewport" http-equiv="X-UA-Compatible" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>Chat</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+    <div id="content">
+        <div>
+            当前房间:<span id="room"></span>
+        </div>
+        <div id="room-list">
+        </div>
+        <div id="messages"></div>
+        <form action="" id="send-form">
+            <textarea cols="20" rows="10" type="text" id="send-message" placeholder="say something..."></textarea>
+            <br />
+            <input type="submit" id="send-button" placeholder="send">
+            <div id="help">
+                聊天室帮助
+                <ul>
+                    <li>修改昵称:<code>@nick [username]</code></li>
+                    <li>连接/创建 房间:<code>@join [roomname]</code></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <script src="js/socket.io.js"></script>
+    <script src="js/jquery-1.8.2.min.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/chat_ui.js"></script>
+    <script>
+    var address = (location.host.indexOf('mrhucloud') > -1) ? "111.206.45.12:30307" : location.host;
+    var socket = io(address, {
+        reconnection: true
+    });
+    $(document).ready(function() {
+        var chatApp = new Chat(socket);
+        socket.on('nameResult', function(result) {
+            var message;
+            if (result.success) {
+                message = '你现在的昵称是' + result.name + '.';
+            } else {
+                message = result.message;
+            }
+            $('#messages').append(divSystemContentElement(message));
+        });
+        //显示房间变更结果
+        socket.on('joinResult', function(result) {
+            $('#room').text(result.room);
+            $('#messages').append(divSystemContentElement('房间更换!'))
+        });
+        //接受消息
+        socket.on('message', function(message) {
+            var $messages=$('#messages');
+            var newElement = $('<div></div>').text(message.text);
+            $messages.append(newElement);
+            $messages.scrollTop($messages.prop('scrollHeight'));
+        });
+        //显示可用房间列表
+        socket.on('rooms', function(rooms) {
+            $('#room-list').empty(), str = '<p>房间列表</p>';
+            for (var room in rooms) {
+                var r = rooms[room].substring(0, rooms[room].length);
+                if (room != '') {
+                    str += divEscapedContentElment(r);
+                }
+            }
+            $('#room-list').html(str);
+            //点击房间名 切换到该房间
+            $('#room-list div').click(function() {
+                chatApp.processCommand('@join ' + $(this).text());
+                $('#send-message').focus();
+            });
+        });
+        //定期更新房间
+        setInterval(function() {
+            socket.emit('rooms');
+        }, 2000);
+        $('#send-message').focus();
+        $('#send-message').keyup(function(e) {
+            if (e.keyCode === 13) {
+                processUserInput(chatApp, socket);
+            }
+        });
+        $('#send-form').submit(function() {
+            processUserInput(chatApp, socket);
+            return false;
+        });
+    });
+    </script>
+</body>
+
+</html>

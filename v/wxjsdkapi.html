@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>测试微信jsdk</title>
+</head>
+
+<body>
+    <h1>WXJSDK测试</h1>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../tools/jsdk.js"></script>
+    <script src="config/cconfig.js"></script>
+    <script>
+    (function() {
+        'use strict';
+        var imgpath = TD_WX_Config.h5url + '/img/little.png',
+            shareurl=TD_WX_Config.h5url +'/v/getOpenid.html?getopenid=1';
+        set_wxshare(imgpath, '返利来了', 'TD大数据-返利-返利来了', shareurl);
+    }());
+    </script>
+</body>
+
+</html>

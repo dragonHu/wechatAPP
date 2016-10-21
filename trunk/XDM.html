@@ -1,0 +1,19 @@
+<button id="xmdbtn">xmdbtn</button>
+<script>
+	window.addEventListener('message',receiveMessage,false);
+	var ourl='http://172.30.117.145:18081/html5Script.html';
+	xmdbtn.addEventListener('click',doClick);
+	function doClick(){
+		var name=document.getElementById('clientname');
+        parent.postMessage('hunibin',ourl);
+       // ChatHistory=parent.document.location.hash;
+        console.log(parent.location)
+ //       ChatHistory=parent.document.getElementById("ChatHistory");
+        ChatHistory.innerHTML+=e.data+"   时间:"+new Date()+"<br>";
+	}      
+	function receiveMessage(e){
+        //showdiv.innerHTML+="data:"+e.data+' origin:'+e.origin;
+       
+        ChatHistory.innerHTML+=e.data+"   时间:"+new Date()+"<br>";
+	}
+</script>

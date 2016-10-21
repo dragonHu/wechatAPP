@@ -1,0 +1,42 @@
+{
+	"boundClient": {}, // 当前弹出框的坐标值
+	"code": 0, //0初始化 1点击命名事件 2是否选中上一级 3启动设定事件 4显示对话框的位置 5是否可设置灵动事件 6事件是否提交成功 7返回事件列表 8实时上传URL 9用户操作定义完成的事件
+		"purl": "www.tlakingData.com",
+		"appID": "aaa22adw",
+		"eventName": "aaa",
+		"setEvent":true,
+		"isSelectUp": true, //是否选中上一级
+		"urlConfigParam":"(*)", //通配参数
+		"isSetEventDone": false //true事件命名成功 false事件命名失败 
+	},
+	"notification": {
+		"boundClient": {},
+		"isSetless": true, //灵动事件 true可设置 false不可设置
+	}
+}
+
+http://127.0.0.1:8020/game-html5-sdk/
+http://172.30.116.253:8020/game-html5-sdk/business-app-sdk/WebContent/index.html 测试URL
+http://172.30.116.253:8020/TD-mobileData/index.html
+taskkill /F /IM nginx.exe > nul
+//h5灵动分析
+http://dmpdemo.talkingdata.com/enterprise/;jsessionid=1082dpzv0rw2djgsouic8jysz#report/webpage/eventCloudCtrl?url=http:%2F%2F54.222.228.161:8080%2FLingDong%2Fstep2.html
+
+http://172.30.116.255:18080/LingDong/step2.html?appkey=F9E57E15EA02B0FA2000262A3006258A&*
+http://addmp.talkingdata.com/user/#!/persons/tag
+
+zgh5@163.com 123456
+http://54.222.228.161:8080/ //线上接口地址
+http://54.222.228.161:8080/business-app-sdk/WebContent/demo.html
+
+
+
+
+http://172.30.117.7:3000/smart
+http://172.30.117.7:3000/smart/list
+http://172.30.117.7:3000/smart/update
+{
+	event_name:"", 
+	path:{},
+	match:""
+}

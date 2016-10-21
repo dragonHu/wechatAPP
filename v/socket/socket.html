@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>socket.io</title>
+    <style type="text/css" media="screen">
+    #userresult li {
+        list-style: none;
+    }
+    
+    #userresult img {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+    }
+    </style>
+</head>
+
+<body>
+    <p id="userid"></p>
+    <input type="" id="saysome">
+    <button id="enterBtn">Enter</button>
+    <button id="disconnect">disconnect</button>
+    <button id="reconnect">reconnect</button>
+    <ul id="userresult">
+    </ul>
+    <script src="/v/config/cconfig.js"></script>
+    <script src="/tools/socket.io.js"></script>
+    <script src="/tools/EventUtil.js"></script>
+    <script src="/tools/AJAX.js"></script>
+    <script>
+    (function() {
+        'use strict';
+        var userresult = document.querySelector('#userresult'),
+        reconnect= document.querySelector('#reconnect'),
+        userid= document.querySelector('#userid');
+
+        function startSocketConnect(address) {
+            var socket = io(address, {
+                    reconnection: true
+                }),
+                saysome = document.querySelector('#saysome'),
+                disconnect = document.querySelector('#disconnect'),
+                enterBtn = document.querySelector('#enterBtn');
+            socket.on('connect', function(data) {
+                socket.emit('hi!');
+            });
+            socket.on('news', function(data) {
+                console.log(data);
+                var tip = data.msg,
+                    userInfo = JSON.parse(data.userinfo);
+                var lihtml = "<li><img src=" + userInfo.headimgurl + " ><p>" + userInfo.nickname + "</p><p>" +
+                    new Date() + ':' + tip + "</p><button data-openid=" + userInfo.openid + ">选择该用户</button></li>";
+                userresult.innerHTML += lihtml;
+            });
+            //获取用户openid
+            userresult.addEventListener('click', function(e) {
+                e = EventUtil.getEvent(e);
+                var target = EventUtil.getTarget(e);
+                if(target.tagName=='BUTTON'){
+                   userid.innerHTML=target.getAttribute('data-openid');
+                }
+            });
+            enterBtn.addEventListener('click', function() {
+                socket.emit('dispatch', {
+                    msg:saysome.value.trim(),
+                    openid:userid.innerHTML
+                });
+            });
+            disconnect.addEventListener('click', function() {
+                socket.emit('disconnect2', {
+                    openid:userid.innerHTML
+                });
+                socket.close();
+                /*socket.on('reconnect', function() {
+                    console.log("重新连接到服务器");
+                });*/
+            });
+            reconnect.addEventListener('click',function(){
+                 socket.connect();
+            });
+        }
+
+        function startWSSocketConnect(address) {
+            // 创建一个Socket实例
+            var socket = new WebSocket('ws://' + address, 'echo-protocol');
+            // 打开Socket 
+            socket.onopen = function(event) {
+                // 发送一个初始化消息
+                socket.send('I am the client');
+                // 关闭Socket.... 
+                //socket.close() 
+            };
+            // 监听消息
+            socket.onmessage = function(event) {
+                console.log('msg', event);
+            };
+            // 监听Socket的关闭
+            socket.onclose = function(event) {
+                console.log('Client socket has closed', event);
+            };
+            disconnect.addEventListener('click', function() {
+                console.log('disconnect');
+                socket.disconnect();
+            });
+            enterBtn.addEventListener('click', function() {
+                socket.send(saysome.value.trim())
+            });
+        }
+        /* getIp4();
+
+         function getIp4() {
+             var rurl = '/interface/getip4',
+                 obj = {
+                     hostname: location.hostname
+                 };
+             postAjax(rurl, obj, function(data) {
+                 var o = JSON.stringify(data);
+                 //开始连接
+                 startSocketConnect(o.address || location.host);
+             });
+         }*/
+        var address = (location.host.indexOf('mrhucloud') > -1) ? "111.206.45.12:30307" : location.host;
+        startSocketConnect(address + '/chat');
+
+        //startWSSocketConnect(address);
+
+        function postAjax(url, data, cb, ContentType, option) {
+            var param = {
+                url: url,
+                data: data,
+                type: 'post',
+                ContentType: ContentType || 'application/json',
+                success: function(data) {
+                    if (cb) cb(data);
+                    console.log(data);
+                }
+            };
+            //增加解析头部
+            if (option === 'processData') {
+                param[option] = false;
+            }
+            AJAX.ajaxReq(param);
+        }
+    }());
+    </script>
+</body>
+
+</html>

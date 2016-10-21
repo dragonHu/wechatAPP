@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>获取openid</title>
+</head>
+<style type="text/css" media="screen">
+    #userresult{
+    	background: #ccc;
+    	opacity: 0.7;
+    	height: auto;
+    }
+	#userresult img{
+       width: 200px;height:200px;
+       border-radius: 100px;
+	}
+</style>
+<body>
+    <h1>获取用户信息</h1>
+    <div id="userresult">
+        <p>headimgurl:<img src="" alt=""></p>
+        <p>nickname:<span></span></p>
+    	<p>sex:<span></span></p>
+    	<p>address:<span></span></p>
+    	<p>openid:<span></span></p>
+    	
+    </div>	
+    <script src="../tools/AJAX.js"></script>
+    <script src="../tools/EventUtil.js"></script>
+    <script>
+    (function() {
+        'use strict';
+        var urlpm=EventUtil.fnQueryString(location.search),
+            reqparam={openid:urlpm.openid,token:urlpm.token},
+            userresult=document.querySelectorAll('#userresult p');   
+        //初始化请求数据
+        postAjax('/interface/getUserInfo',reqparam,function(data){
+            var o=JSON.parse(data);
+            userresult[4].querySelector('span').innerHTML=o.openid;
+            userresult[1].querySelector('span').innerHTML=o.nickname;
+            userresult[2].querySelector('span').innerHTML=(o.sex==1)?'男':'女';
+            userresult[3].querySelector('span').innerHTML=o.country+'-'+o.province+'-'+o.city;
+            userresult[0].querySelector('img').src=o.headimgurl;
+        });
+       
+        function getAjax(url, cb) {
+            AJAX.ajaxReq({
+                url: url,
+                data: null,
+                type: 'get',
+                success: function(data) {
+                    if (cb) {
+                        cb(data)
+                    }
+                    console.log(data);
+                }
+            });
+        }
+
+        function postAjax(url, data,cb, ContentType, option) {
+            var param = {
+                url: url,
+                data: data,
+                type: 'post',
+                ContentType: ContentType || 'application/json',
+                success: function(data) {
+                    cb(data);
+                }
+            };
+            //增加解析头部
+            if (option === 'processData') {
+                param[option] = false;
+            }
+            AJAX.ajaxReq(param);
+        }
+    }());
+    </script>
+</body>
+
+</html>

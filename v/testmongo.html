@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>测试mongoDB</title>
+</head>
+
+<body>
+    <h1>MongoDB 数据库测试</h1>
+    <p id="tablecollection"></p>
+    <p id="countnum"></p>
+    <div id="eventresult">
+        <input type="text" id="tablename">
+        <br>
+        <br>
+        <button id="newDatabase">newDatabase</button>
+        <button id="delDatabase">delDatabase</button>
+        <button id="newtable">newtable</button>
+        <button id="droptable">droptable</button>
+        <button id="refresh">refresh</button>
+        <button id="disconnect">disconnect</button>
+        <br>
+        <br>
+        <input type="text" id="username">
+        <input type="text" id="password">
+        <br>
+        <br>
+        <button id="insert">insert</button>
+        <button id="query">query</button>
+        <button id="queryall">queryall</button>
+        <button id="update">update</button>
+        <button id="delete">delete</button>
+    </div>
+    <script src="../tools/AJAX.js"></script>
+    <script src="../tools/EventUtil.js"></script>
+    <script src="../tools/jquery.js"></script>
+    <script>
+    var doc = document,
+        username = doc.querySelector('#username'),
+        countnum = doc.querySelector('#countnum'),
+        tablecollection = doc.querySelector('#tablecollection'),
+        tablename = doc.querySelector('#tablename'),
+        eventresult = doc.querySelector('#eventresult'),
+        password = doc.querySelector('#password');
+
+    eventresult.addEventListener('click', function(e) {
+        e = EventUtil.getEvent(e);
+        target = EventUtil.getTarget(e);
+        var obj = null;
+        switch (target.id) {
+            case 'newtable':
+                if (tablename.value.trim() == '') {
+                    alert('表名不能为空');
+                    return;
+                }
+                obj = {
+                    tablename: tablename.value.trim()
+                };
+                postAjax('interface/mgnewtable', obj, function(data) {
+
+                });
+                break;
+            case 'droptable':
+                if (tablename.value.trim() == '') {
+                    alert('表名不能为空');
+                    return;
+                }
+                obj = {
+                    tablename: tablename.value.trim()
+                };
+                postAjax('interface/mgdroptable', obj, function(data) {
+
+                });
+                break;
+            case 'newDatabase':
+                obj = {
+                    dbname: tablename.value.trim()
+                };
+                postAjax('interface/mgnewdb', obj, function(data) {
+                    tablename.value='';
+                    tablename.focus();
+                });
+                break;
+            case 'delDatabase':
+                postAjax('interface/mgdropdb', obj, function(data) {
+
+                });
+                break;
+            case 'disconnect':
+                postAjax('interface/mgdisconnect', obj, function(data) {
+
+                });
+                break;
+            case 'refresh':
+                postAjax('interface/mggettable', null, function(data) {
+                    var o = JSON.parse(data),
+                        str = '';
+                    for (var i in o.data) {
+                        str += '当前数据库:' + i + ' 当前表:' + tablename.value.trim() + ' 表集合:' + o.data[i].join(',');
+                    }
+                    tablecollection.innerHTML = str;
+                });
+                break;
+            case 'insert':
+                obj = {
+                    name: username.value.trim(),
+                    password: password.value.trim()
+                };
+                postAjax('interface/mginsert', obj, function(data) {
+
+                });
+                break;
+            case 'query':
+                obj = {
+                    name: username.value.trim()
+                }
+                postAjax('interface/mgquery', obj, function(data) {
+
+                });
+                break;
+            case 'queryall':
+                postAjax('interface/mgquery', obj, function(data) {
+
+                });
+                postAjax('interface/mgcount', null, function(data) {
+                    var o = JSON.parse(data);
+                    countnum.innerHTML = '当前表记录数:' + o.data;
+                });
+                break;
+            case 'update':
+                obj = {
+                    reqdata: [{
+                        name: username.value.trim()
+                    }, {
+                        $set: {
+                            password: password.value.trim()
+                        }
+                    }]
+                };
+                postAjax('interface/mgupdate', obj, function(data) {
+
+                });
+                break;
+            case 'delete':
+                obj = {
+                    name: username.value.trim()
+                };
+                postAjax('interface/mgdelete', obj, function(data) {
+
+                });
+                break;
+        }
+
+    });
+
+    function postAjax(url, data, cb, ContentType, option) {
+        var param = {
+            url: url,
+            data: data,
+            type: 'post',
+            ContentType: ContentType || 'application/json',
+            success: function(data) {
+                if (cb) cb(data);
+                console.log(data);
+            }
+        };
+        //增加解析头部
+        if (option === 'processData') {
+            param[option] = false;
+        }
+        AJAX.ajaxReq(param);
+    }
+    </script>
+</body>
+
+</html>

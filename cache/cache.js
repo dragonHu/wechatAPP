@@ -1,0 +1,28 @@
+module.exports={
+	wxAceessTonken:{
+       tonken:null,
+       time:0,
+       clear:function(){
+       	  this.tonken=null;
+       	  this.time=0;
+       }
+	},
+	mediaImgId:{
+		id:null,
+		time:0
+	},
+	mediaVoiceId:{
+		id:null,
+		time:0
+	},
+	wxsigninfo:{
+		nonce:null,
+		timestamp:null,
+		signature:null,
+		ticket:{
+			time:0,
+			tk:null
+		}
+	},
+	wxCustomMsg:{}
+};

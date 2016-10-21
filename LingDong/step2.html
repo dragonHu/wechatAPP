@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!-- saved from url=(0107)https://www.talkingdata.com/app/new/view.html?zh_cn&ae4ab8938277#/eventCloud?productid=3086812&platformid=1 -->
+<html>
+
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+    @charset "UTF-8";
+    [ng\:cloak],
+    [ng-cloak],
+    [data-ng-cloak],
+    [x-ng-cloak],
+    .ng-cloak,
+    .x-ng-cloak,
+    .ng-hide {
+        display: none !important;
+    }
+    ng\:form {
+        display: block;
+    }
+    </style>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/newcss.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.min.css">  -->
+    <title>TalkingData</title>
+    <body>
+        <div class="main">
+            <div class="content l" id="right">
+                <div ng-view="" class="ng-scope">
+                    <div class="Remove_code Remove_clearfix ng-scope" style="" id="step2">
+                        <div class="Remove_code_left">
+                            <div class="Remove_code_tit Remove_bor_l" style="z-index: 99;">
+                                <span class="Remove_icon" id="offLink" style="display:none;">
+                    <div class="broken">
+                        <div class="broken_top">
+                            <div class="broken_top_l">
+                                <div data-type="mobilePaltorm" class="Remove_icon Android"></div>
+                                <em data-type="mobileName" title="Android6.0.1">Android6.0.1</em>
+                            </div>
+                            <div class="broken_top_c">
+                                <em data-type="mobileType"></em>
+                                <em data-type="mobileOs" title="Nexus 6P">Nexus 6P</em>
+                                <em data-type="wifi" title="&quot;TData&quot;">WIFI: "TData"</em>
+                            </div>
+                            <div class="broken_top_r"><a href="javascript:void(0)" id="offLinkBtn" class="ng-binding">断开连接</a></div>
+                        </div>
+                        <div class="broken_tit">
+                            <em class="ng-binding">事件测试</em>
+                            <font class="ng-binding">发生时间</font>
+                            <b class="ng-binding">对用户生效</b>
+                        </div>
+                        <div class="broken_con" id="onEventList">
+                            <p style="line-height: 60px; text-align:center" class="ng-binding">请在您的设备上点击已添加事件的按钮！</p>
+                        </div>
+                    </div>
+                </span>
+                                <font class="ng-binding">灵动事件</font>
+                                <strong class="ng-binding"><b class="Remove_icon">1</b>选择界面中的元素来定义事件</strong>
+                            </div>
+                            <div class="Remove_code_bg">
+                                <div class="address-container Remove_clearfix">
+                                    <input id="LD_urlAddress" type="text" class="input-htmlAddress" placeholder=" 输入移动网站地址按enter键开始设置">
+                                    <span class="icon-pre"></span>
+                                    <span class="icon-next"></span>
+                                    <span class="icon-refresh"></span>
+                                </div>
+                                <div class="picture-middle">
+                                    <div id="mobileImages" class="mobile-images">
+                                        <iframe class="LD_P_iframe" id="LD_P_iframe" src=""></iframe>
+                                    </div>
+                                    <div class="operate-right">
+                                        <ul>
+                                            <li class="cannot"><b></b>不可设置，网页不属于您或未集成SDK</li>
+                                            <li class="can"><b></b>可以设定灵动事件</li>
+                                        </ul>
+                                        <div class="parameter Remove_clearfix">
+                                            <span>添加自定义监控参数</span>
+                                            <b>? <em><i></i>网页默认将自定义监控参数以*代替来确保不重复计算，但业务需要则可自定义设置参数 例如，www.td.com/index.html?id=baidu&seo=bigdata, 默认状态为www.td.com/index.html？*， 客户可自行设定为www.td.com/index.html?id=baidu&seo=*，表示百度来源的所有seo将被认定为一个页面</em></b>
+                                            <textarea  id="LD_General_urlAddress" class="input-address" placeholder="输入网址中的动态通配参数部分"></textarea>
+                                            <!-- <a href="javascript:void(0)" id="LD_setEvent" class="reset">恢复网页浏览</a> -->
+                                            <a href="javascript:void(0)" id="LD_setEvent" class="cannot-set">开始设定事件</a>
+                                            <!--  <a href="javascript:void(0)" class="cannot-set">恢复网页浏览</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="contain-eye">
+                                    <div class="picture-eyes" style="display: none;">
+                                        <div class="eyes-tooltip">
+                                            <div class="eyes-tip-content">关闭在界面中对可追踪数据的元素追加提示</div>
+                                        </div>
+                                    </div>
+                                    <div class="picture-lists">
+                                        <div class="picture-borders"><span class="border"></span>可追踪的元素</div>
+                                        <div class="picture-borders"><span class="border border1"></span>已追踪的元素</div>
+                                        <div class="picture-borders"><span class="border border2"></span>当前选中的元素</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Remove_code_right">
+                            <div class="Remove_code_tit Remove_bor_r">
+                                <font class="select" id="LD_event_select"><em>全部事件</em><b></b>
+                                    <ul style="display:none">
+                                        <li data-type="all">全部事件</li>
+                                        <!-- <li data-type="own">当前页事件</li> -->
+                                        <li data-type="edit">有变更事件</li>
+                                    </ul>
+                                </font>
+                                <font class="select" id="LD_version_select" style="display: none;"><em>全部版本</em><b class="Remove_icon"></b>
+                                    <ul style="display: none; height: 90px; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+                                        <li data-type="all" class="ng-binding">版本一</li>
+                                        <li data-type="own" class="ng-binding">版本二</li>
+                                        <li data-type="edit" class="ng-binding">版本三</li>
+                                    </ul>
+                                </font>
+                            </div>
+                            <div class="Remove_right_con Remove_code_blue" style="height: 686px;">
+                                <div class="search-event Remove_clearfix">
+                                    <input type="text" id="LD_searchEvent" placeholder="输入事件名称" class="Remove_search">
+                                    <i class="Remove_icon" id="LD_search"></i>
+                                </div>
+                                <div class="Rmove_white">
+                                    <ul id="LD_event_container" style="height:646px">
+                                    </ul>
+                                </div>
+                                <div class="Rmove_bottom">
+                                    <p class="tip"></p>
+                                    <p class="ng-binding">最后保存时间：<span id="LD_pushTime"></span></p>
+                                    <div class="Remove_button">
+                                        <a class="Remove_button_blue ng-binding" id="LD_confirmPush">全部生效</a><a id="LD_cancelPush" style="float: right" class="Remove_button_gray ng-binding">撤销更改</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="name-event" id="LD_name_event_div" style="display: none;">
+            <ul>
+                <li>命名事件，追加数据追踪点</li>
+                <li class="explain">在用户点击这个界面元素时收集数据</li>
+                <li>
+                    <input name="" data-id="" id="LD_event_name" type="text" class="input-name">
+                </li>
+                <li><a href="#" class="cancel">取消</a><a href="#" class="confirm">确定</a><a href="#" class="findup">查找元素上一级</a></li>
+            </ul>
+        </div>
+    </body>
+    <script id="LDeventmpl" type="text/x-dot-template">
+        <%var arr=it,len=arr.length;for(var i=0;i<len;i++){%>
+            <%var ei=arr[i],tclass='',beforeicon='',isedit=false;if(ei.state===3){isedit=false;tclass="del";beforeicon='<span class="icon-del"></span>';}else{isedit=true;tclass="";} if(ei.state===1){beforeicon='<span class="icon-newEvent"></span>';}%>
+                <li class="<%=tclass%>" data-ldid="<%=ei.id%>">
+                    <%if(isedit){%>
+                        <%=beforeicon%>
+                            <strong>
+                    <i></i>
+                    <span class="event-name" title="<%=ei.name%>">
+                    <input name="" type="text" class="eventName" value="<%=ei.name%>" data-ldid="<%=ei.id%>" data-state="<%=ei.state%>" onchange="changeEvent(this)">
+                        </span>
+                        <!-- <span><%=ei.version_code%></span> -->
+                        </strong>
+                            <span class="operate-event">
+                 <em class="icon-edit"></em>
+                 <em class="icon-del"></em>
+                </span>
+                            <%}else{%>
+                                <%=beforeicon%>
+                                    <strong>
+                    <i></i>
+                    <span class="event-name" title="<%=ei.name%>">
+                    <strong style="display:block" data-ldid="<%=ei.id%>" data-state="<%=ei.state%>"><%=ei.name%></strong>
+                                    </span>
+                                    <!-- <span><%=ei.version_code%></span> -->
+                                    </strong>
+                                    <span class="operate-event">
+                 <em class="icon-return"></em>
+                 </span>
+                                    <%}%>
+                </li>
+                <%}%>
+    </script>
+    <script>
+    var TDLD = window.TDLD || {},
+        doc = document;
+    </script>
+    <script src="tools/jquery-1.8.2.min.js"></script>
+    <script src="tools/config.js"></script>
+    <script src="tools/EventUtil.js"></script>
+    <script src="tools/AJAX.js"></script>
+    <script src="tools/doT.min.js"></script>
+    <script src="step2.js"></script>
+    <!-- <script src="js/main.min.js?v=1"></script> -->
+</html>

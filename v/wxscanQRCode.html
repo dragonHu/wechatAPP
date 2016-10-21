@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta charset="UTF-8">
+    <title>测试调用微信扫一扫接口</title>
+    <style>
+    button,
+    input {
+        width: 100%;
+        height: 50px;
+    }
+    </style>
+</head>
+
+<body>
+    <button id="scanqr">scanqr</button>
+    <p></p>
+    <h4 id="writeQR"></h4>
+    <br>
+    <button id="chooseimg">选择图片</button>
+    <br>
+    <img id="showimage" src="" width="150" height='220' alt="">
+    <br>
+    <button id="upload">上传图片</button>
+    <br>
+    <button id="checkinter">检验接口是否可用</button>
+    <p id="errmsg"></p>
+    <input type="text" id='userid' value='oqKqIs1G0WLazs0ZAF1CoMnIpSgU'>
+    <button id='sendmsg'>给用户发送消息</button>
+</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="../tools/AJAX.js"></script>
+<script src="../tools/EventUtil.js"></script>
+<script src="../tools/jsdk.js"></script>
+<script src="config/cconfig.js"></script>
+<script src="wxhandler.js?v=36"></script>
+
+</html>

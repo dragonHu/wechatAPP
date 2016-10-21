@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>模拟微信签名</title>
+</head>
+<style>
+#eventresult,
+#clientsendmsg {
+    background: #ccc;
+    border: 1px red solid;
+    margin-top: 10px;
+}
+</style>
+
+<body>
+    <div id="eventresult">
+        <h1>功能处理</h1>
+        <button id="sendsign">发送微信签名</button>
+        <br>
+        <button id="sendmsg">发送微信文本消息</button>
+        <br>
+        <button id="gettonken">获取accesstonken</button>
+        <br>
+        <br>
+        <input type="file" id="file1">
+        <br>
+        <button id="uploadimg">上传图片素材</button>
+        <button id="uploadvoice">上传声音素材</button>
+    </div>
+    <div id="clientsendmsg">
+        <h1>主动给用户发送消息</h1>
+        <p>注:微信有48小时的限制，超过48消息 不能主动给用户发送消息，模板消息与多图文消息除外</p>
+        <input id="openid" name="" placeholder="输入用户openid">
+        <input id="saysome" name="" placeholder="saysomething">
+        <input id="mediaid" name="" placeholder="输入mediaid">
+        <br>
+        <select id="selecttype">
+            <option value="text" checked>text</option>
+            <option value="image">image</option>
+            <option value="voice">voice</option>
+        </select>
+        <button id="sendmessage">sendmessage</button>
+    </div>
+    <script src="../tools/AJAX.js"></script>
+    <script src="../tools/EventUtil.js"></script>
+    <script src="../tools/jquery.js"></script>
+    <script>
+    (function() {
+        'use strict';
+        var doc = document,
+            accesstoken = null,
+            eventresult = doc.querySelector('#eventresult'),
+            sendmessage = doc.querySelector('#sendmessage'),
+            file1 = doc.querySelector('#file1');
+        eventresult.addEventListener("click", handleClick);
+        sendmessage.addEventListener("click", handlemessage);
+        //公共请求函数    
+        function reqAjax(dataURL, param, callback, type, async) {
+            $.ajax({
+                type: type || "GET",
+                url: dataURL,
+                data: JSON.stringify(param) || null,
+                contentType: "application/json;charset=utf-8",
+                headers: {
+                    PlainJson: "hunibin"
+                },
+                async: async || false,
+                success: function(data) {
+                    callback(data);
+                },
+                error: function(e) {
+                    alert("!请求失败,请重新尝试");
+                }
+            });
+        }
+
+
+
+
+
+        function handleClick(e) {
+            e = EventUtil.getEvent(e);
+            var target = EventUtil.getTarget(e);
+            switch (target.id) {
+                case 'sendsign':
+                    /* var str = "/?signature=0e0969a9c9162ee996e2b337f370e76e71cba0ab&echostr=2074534540616326142&timestamp=1470386410&nonce=2045592654";
+                     getAjax(str);*/
+                    var paramobj = {
+                        "device": {
+                            "deviceId": {
+                                "tid": "3b670cdba598f84cde6eed9a0944cbc44",
+                                "imeis": ["355136056556064"],
+                                "wifiMacs": ["98:D6:F7:8F:D0:C6"],
+                                "androidId": "ab27a3201e11f786",
+                                "serialNo": "01dcb33a15c82cd8"
+                            }
+                        },
+                        "app": {
+                            "name": "BaseDataCollector",
+                            "globalId": "com.jianlu.basedatacollector",
+                            "versionName": "1.2",
+                            "versionCode": 4,
+                            "installTime": 1432120073823,
+                            "updateTime": 1432120364892,
+                            "appKey": {
+                                "service": "sms",
+                                "appKey": "b5c741956b8246ddb8bae87bd38a51a1"
+                            }
+                        },
+                        "action": {
+                            "domain": "sms",
+                            "name": "apply",
+                            "data": {
+                                "mobile": "15001399910",
+                                "countryCode": "86",
+                                "secretId": "9bcd681f7cc9534d0a3f9230dc2d606e",
+                                "acctName": "15001399910@td.com"
+                            }
+                        }
+                    };
+                    var basePath = "http://172.30.117.25:8080/dmp-ad-saas-rest-1.2.23-SNAPSHOT/user";
+                    reqAjax(basePath + "/applyCheck", paramobj, function(data) {
+                        if (data.code == 200 && data.data.errorMessage == "") {
+                            console.log('sucess');
+                        } else {
+                            alert("验证码获取失败,请稍后再试");
+                        }
+                    }, 'post');
+                    break;
+                case 'sendmsg':
+                    var str = "/?signature=0e0969a9c9162ee996e2b337f370e76e71cba0ab&echostr=2074534540616326142&timestamp=1470386410&nonce=2045592654&openid=oqKqIs1G0WLazs0ZAF1CoMnIpSgU";
+                    var rstr = "<xml><ToUserName><![CDATA[gh_92d51ad6c459]]></ToUserName><FromUserName><![CDATA[oqKqIs1G0WLazs0ZAF1CoMnIpSgU]]></FromUserName><CreateTime>1470473485</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[aa]]></Content><MsgId>6315635528120593222</MsgId></xml>";
+                    postAjax(str, rstr, "text/xml");
+                    break;
+                case 'gettonken':
+                    getAjax('/interface/accesstoken', function(data) {
+                        // body...
+                        accesstoken = data;
+                    });
+                    break;
+                case 'uploadimg':
+                    var url = "/interface/uploadmedia/image";
+                    var formdata = new FormData();
+                    formdata.append("media", file1.files[0]);
+                    console.log(formdata, file1.files[0]);
+                    postfile(url, formdata);
+                    break;
+                case 'uploadvoice':
+                    var url = "/interface/uploadmedia/voice";
+                    var formdata = new FormData();
+                    formdata.append("media", file1.files[0]);
+                    console.log(formdata, file1.files[0]);
+                    postfile(url, formdata);
+                    break;
+            }
+        }
+
+        function handlemessage(e) {
+            var openid = doc.querySelector('#openid'),
+                saysome = doc.querySelector('#saysome'),
+                mediaid = doc.querySelector('#mediaid'),
+                selecttype = doc.querySelector('#selecttype');
+            var type = selecttype.value;
+            var obj = {
+                "touser": openid.value.trim(),
+                "msgtype": type,
+            };
+
+            if (type == 'text') {
+                obj[type] = {
+                    "content": saysome.value.trim()
+                };
+            } else {
+                obj[type] = {
+                    "media_id": mediaid.value.trim()
+                };
+            }
+            postAjax('/interface/sendwxmsg', obj);
+        }
+
+        function getAjax(url, cb) {
+            AJAX.ajaxReq({
+                url: url,
+                data: null,
+                type: 'get',
+                success: function(data) {
+                    if (cb) {
+                        cb(data)
+                    }
+                    console.log(data);
+                }
+            });
+        }
+
+        function postAjax(url, data, ContentType, option) {
+            var param = {
+                url: url,
+                data: data,
+                type: 'post',
+                ContentType: ContentType || 'application/json',
+                success: function(data) {
+                    console.log(data);
+                }
+            };
+            //增加解析头部
+            if (option === 'processData') {
+                param[option] = false;
+            }
+            AJAX.ajaxReq(param);
+        }
+
+        function postfile(url, filedata) {
+            console.log(JSON.stringify(filedata));
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: filedata,
+                processData: false, //必须设置为false 正常解释头部
+                contentType: false,
+                success: function(responseStr) {
+                    console.log('success', responseStr);
+                },
+                error: function(responseStr) {
+                    console.log('error', responseStr);
+                }
+            });
+        }
+    }());
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>处理跨域传递数据</title>
+</head>
+
+<body>
+    <div id="wrapperA">
+        <textarea id="mytext" placeholder="enter url" cols="60" rows="3"></textarea>
+        <br />
+        <button id="MyBtn">enter</button>
+        <button id="MyBtn2">send msg</button>
+        <p id="pcontainer"></p>
+        <iframe id="myifrA" src="" style="display: none;height: 500px;width: 100%;"></iframe>
+    </div>
+    <script src="../tools/EventUtil.js" charset="utf-8"></script>
+    <script>
+    window.name = "http://www.talkingdata.com";
+    var MyBtn = doc.getElementById("MyBtn"),
+        MyBtn2 = doc.getElementById("MyBtn2"),
+        iurl = '',
+        mytext = doc.getElementById("mytext");
+    EventUtil.addHandler(MyBtn, 'click', function() {
+        var clientRect = MyBtn.getBoundingClientRect();
+        console.log(clientRect,clientRect.top);
+        var cobj={};
+        for(var i in clientRect){
+            cobj[i]=clientRect[i];
+        }
+        var obj = {
+            "code":3,
+            "data": {},
+            "notification": {
+                "boundClient":cobj
+            }
+        };
+
+        parent.postMessage(JSON.stringify(obj),location.href+'/LingDong/step2.html');
+    });
+    var obj=EventUtil.fnQueryString(document.location.search);
+    console.log(document.location,obj);
+
+    /* EventUtil.attachEvent(MyBtn, 'click', function() {
+         var myifrA = doc.getElementById("myifrA");
+         iurl = mytext.value.trim();
+         myifrA.src = iurl;
+         myifrA.style.display = "block";
+         EventUtil.attachEvent(myifrA, 'load', function() {
+             window.frames[0].postMessage("hunibin", iurl);
+         });
+     });
+
+     function transData(data) {
+         if (data) {
+             data.win.nibin(mytext.value.trim());
+         }
+     }*/
+    //监听消息
+    window.addEventListener('message', receiveMessage, false);
+
+    function receiveMessage(e) {
+        console.log(e.data + "   时间:" + new Date() + "<br>");
+    }
+    </script>
+</body>
+
+</html>
